@@ -1,13 +1,11 @@
 const express = require("express");
 const app = express();
 const socketIO = require("./socketIO");
+const LocationRouter = require("./routers/Location.router");
 const morgan = require("morgan");
 const cors = require("cors");
 require("dotenv").config();
 const PORT = process.env.PORT;
-// const AuthRouter = require("./Routes/auth.routes.js");
-// const UserRouter = require("./Routes/user.routes.js");
-// const PostRouter = require("./Routes/post.routes.js");
 
 const Atlas = process.env.Atlas;
 
@@ -20,7 +18,7 @@ app.use(morgan("tiny"));
 //connect database
 require("./database");
 
-// app.use(AuthRouter);
+app.use(LocationRouter);
 
 // app.use(UserRouter);
 
