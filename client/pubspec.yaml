@@ -29,6 +29,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   location: ^3.0.0
   provider: ^5.0.0
+  http: any
 
 dev_dependencies:
   flutter_test:

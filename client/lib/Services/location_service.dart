@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:client/Models/location_model.dart';
 import 'package:location/location.dart';
+import 'package:http/http.dart' as http;
+import 'package:client/models/server.dart';
 
 class LocationService {
   Location location = Location();
@@ -23,4 +25,31 @@ class LocationService {
       }
     });
   }
+
+  static Future<String> upLoadLocation(latitude, longitude) async {
+    String apiUrl = '$URL_UPDATELOCATION';
+    http.Response response = await http.post(apiUrl, body: {
+      'latitude': latitude.toString(),
+      'longitude': longitude.toString(),
+    });
+    if (response.statusCode == 200) {
+      print("Result: ${response.body}");
+      print('thanh cong');
+    } else {
+      print('that bai');
+    }
+    return response.body;
+  }
+
+  // static Future<String> gettset() async {
+  //   String apiUrl = 'http://192.168.1.7:0908/allpost';
+  //   http.Response response = await http.get(apiUrl);
+  //   if (response.statusCode == 200) {
+  //     print("Result: ${response.body}");
+  //     print('thanh cong');
+  //   } else {
+  //     print('that bai');
+  //   }
+  //   return response.body;
+  // }
 }
