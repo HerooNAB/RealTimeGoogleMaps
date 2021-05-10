@@ -5,6 +5,8 @@ const Location = require("../models/Location.model");
 require("dotenv").config();
 // var multer = require("multer");
 var fs = require("fs");
+const { db } = require("../models/Location.model");
+// require("../database");
 
 // const storage = multer.diskStorage({});
 
@@ -13,12 +15,11 @@ router.get("/", (req, res) => {
 }); //req = request (đẩy lên DB) -- res = response (lấy dữ liệu về từ DB)
 
 router.get("/alllocation", (req, res) => {
-  Location.find()
-    .then((Locations) => {
+  Location.collection
+    .find({}, { projection: { _id: 0, latitude: 1, longitude: 1 } })
+    .toArray(function (err, Locations) {
+      if (err) throw err;
       res.json({ Locations });
-    })
-    .catch((err) => {
-      console.log(err);
     });
 });
 

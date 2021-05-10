@@ -2,6 +2,8 @@ const express = require("express");
 const app = express();
 const socketIO = require("./socketIO");
 const LocationRouter = require("./routers/Location.router");
+const AuthenRouter = require("./routers/Authen.router");
+const UserRouter = require("./routers/User.router");
 const morgan = require("morgan");
 const cors = require("cors");
 require("dotenv").config();
@@ -20,9 +22,9 @@ require("./database");
 
 app.use(LocationRouter);
 
-// app.use(UserRouter);
+app.use(UserRouter);
 
-// app.use(PostRouter);
+app.use(AuthenRouter);
 
 const server = app.listen(PORT, () => {
   console.log("Server is running in port:" + PORT);
