@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>JavaScript - read JSON from URL</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  </head>
+
+  <body>
+    <div class="mypanel"></div>
+
+    <script>
+      $.getJSON("http://localhost:908/alllocation", function (value) {
+        var mang = [];
+        jsonObj = value.Locations;
+        for (var i in jsonObj) {
+          mang.push(jsonObj[i].latitude + "," + jsonObj[i].longitude);
+        }
+		var mangFormat = mang.join("|")
+        console.log(text);
+        var text = `Location: ${mangFormat}<br>
+                    `;
+        $(".mypanel").html(text);
+      });
+    </script>
+  </body>
+</html>
