@@ -11,8 +11,8 @@ require("dotenv").config();
 // }); //req = request (đẩy lên DB) -- res = response (lấy dữ liệu về từ DB)
 
 router.post("/signup", (req, res) => {
-  const { name, email, password, phone } = req.body;
-  if (!email || !password || !name) {
+  const { name, email, password, phone, role } = req.body;
+  if (!email || !password || !name || !phone || !role) {
     return res.status(422).json({ error: "Chưa điền đầy đủ thông tin!" });
   }
   User.findOne({ phone: phone })
@@ -26,6 +26,7 @@ router.post("/signup", (req, res) => {
           phone,
           password: hashedpassword,
           name,
+          role,
           //   avatar,
         });
 
