@@ -17,11 +17,11 @@ class MyApp extends StatelessWidget {
       create: (_) => LocationService().getStreamData,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: ThemeData.dark(), 
-        //ThemeData.light(),
-        home: HomeView(),
+        theme: //ThemeData.dark(), 
+        ThemeData.light(),
+        home: //HomeView(),
         //SignUpView() 
-        //SignInView()
+        SignInView()
         
       ),
     );
