@@ -4,6 +4,7 @@ const socketIO = require("./socketIO");
 const LocationRouter = require("./routers/Location.router");
 const AuthenRouter = require("./routers/Authen.router");
 const UserRouter = require("./routers/User.router");
+const CompanyRouter = require("./routers/Company.router");
 const morgan = require("morgan");
 const cors = require("cors");
 require("dotenv").config();
@@ -25,6 +26,8 @@ app.use(LocationRouter);
 app.use(UserRouter);
 
 app.use(AuthenRouter);
+
+app.use(CompanyRouter);
 
 const server = app.listen(PORT, () => {
   console.log("Server is running in port:" + PORT);

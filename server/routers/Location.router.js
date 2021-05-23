@@ -24,16 +24,6 @@ router.get("/alllocation", RequireLogin, (req, res) => {
     });
 });
 
-// router.get("/location/:id", RequireLogin, (req, res) => {
-//   Location.find({ _id: req.params.id })
-//     .then((user) => {
-//       res.json(user);
-//     })
-//     .catch((err) => {
-//       return res.status(404).json({ error: "loi" });
-//     });
-// });
-
 router.get("/location/:id", (req, res) => {
   Location.find({ postedBy: req.params.id })
     .populate("-postedBy")

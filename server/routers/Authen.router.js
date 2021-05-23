@@ -2,15 +2,17 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const User = require("../models/User.model");
+const Company = require("../models/Company.model");
 const jwt = require("jsonwebtoken");
 const RequireLogin = require("../middlewares/RequireLogin");
+const RequireCompany = require("../middlewares/RequireCompany");
 require("dotenv").config();
 
 // router.get("/", (req, res) => {
 //   res.send("Hello Wellcome To My Word");
 // }); //req = request (đẩy lên DB) -- res = response (lấy dữ liệu về từ DB)
 
-router.post("/signup", (req, res) => {
+router.post("/user/signup", RequireCompany, (req, res) => {
   const { name, email, password, phone, role } = req.body;
   if (!email || !password || !name || !phone || !role) {
     return res.status(422).json({ error: "Chưa điền đầy đủ thông tin!" });
@@ -27,7 +29,7 @@ router.post("/signup", (req, res) => {
           password: hashedpassword,
           name,
           role,
-          //   avatar,
+          company: req.company,
         });
 
         user
@@ -45,7 +47,7 @@ router.post("/signup", (req, res) => {
     });
 });
 
-router.post("/signin", (req, res) => {
+router.post("/user/signin", (req, res) => {
   const { phone, password } = req.body;
   if (!phone || !password) {
     return res.status(422).json({ error: "Hãy điền đầy đủ thông tin" });

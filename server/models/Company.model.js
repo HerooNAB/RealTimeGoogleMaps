@@ -1,7 +1,7 @@
 const mongoose = require("mongoose"); //kết nối DBDB
 const validator = require("validator"); //Thư viện kiểm tra ràng buộc
 const { ObjectId } = mongoose.Schema.Types; // lấy ID của một đối tượng trong bảng gán cho ObjectId
-const UserSchema = new mongoose.Schema({
+const CompanySchema = new mongoose.Schema({
   //định nghĩa table temp chưa lưu vào DB (gom dữ liệu thành 1 bảng)
   name: {
     type: String,
@@ -23,38 +23,19 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  password: {
+  web: {
     type: String,
     required: true,
   },
-  resetToken: String, // khởi tạo biến Token
-  expiresToken: String, // Thời gian sống của Tolken
+
   avatar: {
     type: String,
     default: "",
   },
 
-  role: {
-    type: String,
-    required: true,
-  },
-
-  bio: {
-    type: String,
-    default: "",
-  },
-
-  company: {
-    type: ObjectId,
-    ref: "Company",
-  },
-  /*định nghĩa token*/
-  /*[] - định nghĩa kiểu mảng (trong 1 user có nhiều token)*/
   tokens: [{ token: { type: String, required: true } }],
-  // followers: [{follower: {type: ObjectId, ref: "User"}}], // định nghĩa kiểu mảng như biến token. (ref: ràng buộc dữ liệu là kiểu User)
-  // followings: [{following: {type: ObjectId, ref: "User"}}]
 });
 
-const User = mongoose.model("User", UserSchema); //đặt tên cho bản tạm thời
+const Company = mongoose.model("Company", CompanySchema); //đặt tên cho bản tạm thời
 
-module.exports = User; // cho phép các file khác có thể sử dụng file này (public file này lên)
+module.exports = Company; // cho phép các file khác có thể sử dụng file này (public file này lên)
