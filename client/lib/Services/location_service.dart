@@ -4,6 +4,7 @@ import 'package:client/Models/location_model.dart';
 import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
 import 'package:client/models/server.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LocationService {
   Location location = Location();
@@ -27,10 +28,16 @@ class LocationService {
   }
 
   static Future<String> upLoadLocation(latitude, longitude) async {
+    final prefs = await SharedPreferences.getInstance();
+    final keyToken = 'token';
+    final token = prefs.get(keyToken) ?? 0;
+
     String apiUrl = '$URL_UPDATELOCATION';
     http.Response response = await http.post(apiUrl, body: {
       'latitude': latitude.toString(),
       'longitude': longitude.toString(),
+    }, headers: {
+      'Authorization': 'Bearer $token'
     });
     if (response.statusCode == 200) {
       print("Result: ${response.body}");

@@ -1,10 +1,8 @@
 import 'package:client/Models/location_model.dart';
 import 'package:client/Services/location_service.dart';
-import 'package:client/Views/home_view.dart';
-import 'package:client/Views/signin_view.dart';
-import 'package:client/Views/signup_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'Views/companysignup_view.dart';
 
 void main() {
   runApp(MyApp());
@@ -17,11 +15,10 @@ class MyApp extends StatelessWidget {
       create: (_) => LocationService().getStreamData,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: ThemeData.dark(), 
+        theme: ThemeData.light(), 
         //ThemeData.light(),
-        home: HomeView(),
-        //SignUpView() 
-        //SignInView()
+        home: CompanySignupView(),
+        
         
       ),
     );
