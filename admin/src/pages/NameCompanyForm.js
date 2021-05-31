@@ -25,7 +25,7 @@ export default function NameCompanyForm() {
         <Grid item xs={12}>
           <FormControlLabel
             control={<Checkbox color="secondary" name="saveAddress" value="yes" />}
-            label="Use this address for payment details"
+            label="I use this company name"
           />
         </Grid>
       </Grid>

@@ -68,12 +68,12 @@ export default function SignIn() {
         const token = response.data.token;
         const user = jwt(token);
         console.log(token);
-        console.log(user.user.role);
-        const userRole = user.user.role;
+        console.log(user);
+        const userRole = user.role;
         if (userRole === "admin") {
           localStorage.setItem("accessToken", response.data.token);
-          localStorage.setItem("user", JSON.stringify(user.user));
-          dispatch({ type: "USER", payload: user.user });
+          localStorage.setItem("user", JSON.stringify(user));
+          dispatch({ type: "USER", payload: user });
           M.toast({html:"signedin success",classes:"#43a047 green darken-1"})
           history.push("/admin");
         }

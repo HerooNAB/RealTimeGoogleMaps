@@ -9,7 +9,7 @@ export default function SignUpUserForm() {
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
-        Shipping address
+        Sign Up
       </Typography>
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6}>
@@ -17,7 +17,7 @@ export default function SignUpUserForm() {
             required
             id="firstName"
             name="firstName"
-            label="First name"
+            label="Email"
             fullWidth
             autoComplete="given-name"
           />
@@ -27,7 +27,7 @@ export default function SignUpUserForm() {
             required
             id="lastName"
             name="lastName"
-            label="Last name"
+            label="Name"
             fullWidth
             autoComplete="family-name"
           />
@@ -36,8 +36,8 @@ export default function SignUpUserForm() {
           <TextField
             required
             id="address1"
-            name="address1"
-            label="Address line 1"
+            name="Password"
+            label="Name"
             fullWidth
             autoComplete="shipping address-line1"
           />
@@ -46,7 +46,7 @@ export default function SignUpUserForm() {
           <TextField
             id="address2"
             name="address2"
-            label="Address line 2"
+            label="Password"
             fullWidth
             autoComplete="shipping address-line2"
           />

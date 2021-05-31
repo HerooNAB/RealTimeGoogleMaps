@@ -3,7 +3,6 @@ import React,{useEffect,createContext,useReducer,useContext} from 'react';
 import GoogleMap from "./components/GoogleMap";
 import {reducer,initialState} from './reducers/userReducer'
 import { BrowserRouter, Route, Switch, useHistory } from "react-router-dom";
-import SignUpCompany from "./pages/SignUpCompany"
 import AdminPage from "./pages/AdminPage";
 import LoginPage from "./pages/LoginPage";
 import SignUpUser from "./pages/SignUpUser"
@@ -27,7 +26,6 @@ const Routing = () => {
   return (
     <Switch>
       <Route exact path="/">
-        {/* <SignUpCompany/> */}
         {/* <SignUpUser/> */}
         <LoginPage/>
       </Route>
