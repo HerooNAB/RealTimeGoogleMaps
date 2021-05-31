@@ -20,7 +20,7 @@ class _CompanySigninViewState extends State<CompanySigninView> {
     //Signup Method + chuyen qua trang signupview sau khi signup company
    _signin(){
        //check validate
-      if (_formKey.currentState.validate() && _nameController.text != _name) {
+      if (_formKey.currentState.validate()) {
         CompanyAuth.signinCompService(_name)
             .then((value) => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
               content: Text('Signin Company Successfully!'),

@@ -21,11 +21,11 @@ class _SignInViewState extends State<SignInView> {
   @override
   Widget build(BuildContext context) {
     //Signin Method + chuyen qua trang homeview sau khi signin
-    _submit(){
+    _submit() {
       //check validate
       if (_formKey.currentState.validate()) {
          _formKey.currentState.save();
-       AuthService.signInService(_phone, _password).then((value) =>
+        AuthService.signInService(_phone, _password).then((value) =>
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
               content: Text('Signin Successfully!'),
               duration: Duration(seconds: 3),
