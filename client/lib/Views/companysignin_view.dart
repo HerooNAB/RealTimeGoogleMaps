@@ -20,7 +20,7 @@ class _CompanySigninViewState extends State<CompanySigninView> {
     //Signup Method + chuyen qua trang signupview sau khi signup company
    _signin(){
        //check validate
-      if (_formKey.currentState.validate()) {
+      if (_formKey.currentState.validate() && _nameController.text != _name) {
         CompanyAuth.signinCompService(_name)
             .then((value) => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
               content: Text('Signin Company Successfully!'),
@@ -65,6 +65,20 @@ class _CompanySigninViewState extends State<CompanySigninView> {
                         child: Image.asset("assets/images/FormSignup.png",
                             width: size.width),
                       ),
+                       Positioned(
+                          top: 90,
+                          right: 330,
+                          child: TextButton(
+                            style: ButtonStyle(
+                              foregroundColor: MaterialStateProperty.all<Color>(
+                                  Colors.grey),
+                            ),
+                            onPressed: () => Navigator.of(context).pop(),
+                            child: Text(
+                              'Sign In',
+                              style: TextStyle(fontSize: 18),
+                            ),
+                          )),
                       //Text title
                       Positioned(
                           top: 205,
@@ -74,7 +88,7 @@ class _CompanySigninViewState extends State<CompanySigninView> {
                             child: Text(
                               'Enter your company name',
                               style: TextStyle(
-                                fontSize: 26,
+                                fontSize: 20,
                                 color: Colors.white,
                               ),
                             ),

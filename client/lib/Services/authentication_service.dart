@@ -11,7 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 
 class AuthService{
-  static Future<Company> signupService(name, email, phone, password) async {
+  static Future<String> signupService(name, email, phone, password) async {
     final prefs = await SharedPreferences.getInstance();
     final keyToken = 'token';
     final token = prefs.get(keyToken) ?? 0;
@@ -33,7 +33,7 @@ class AuthService{
     return null;
   }
 
-  static Future<Company> signInService(phone, password) async {
+  static Future<String> signInService(phone, password) async {
     final prefs = await SharedPreferences.getInstance();
     final keyToken = 'token';
     final token = prefs.get(keyToken) ?? 0;

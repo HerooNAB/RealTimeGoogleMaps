@@ -1,4 +1,5 @@
 import 'package:client/Services/authentication_service.dart';
+import 'package:client/Views/companysignin_view.dart';
 import 'package:client/Views/home_view.dart';
 import 'package:client/Views/signup_view.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ class SignInView extends StatefulWidget {
 
 class _SignInViewState extends State<SignInView> {
   bool _visibilityText = true;
+  bool _checkLogin = true;
   String _phone = '', _password = '';
   TextEditingController _phoneController,
       _passwordController = TextEditingController();
@@ -19,10 +21,11 @@ class _SignInViewState extends State<SignInView> {
   @override
   Widget build(BuildContext context) {
     //Signin Method + chuyen qua trang homeview sau khi signin
-    _submit() {
+    _submit(){
       //check validate
       if (_formKey.currentState.validate()) {
-        AuthService.signInService(_phone, _password).then((value) =>
+         _formKey.currentState.save();
+       AuthService.signInService(_phone, _password).then((value) =>
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
               content: Text('Signin Successfully!'),
               duration: Duration(seconds: 3),
@@ -34,9 +37,8 @@ class _SignInViewState extends State<SignInView> {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
           return HomeView();
         }));
-        _formKey.currentState.save();
       } else {
-        return ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+         return ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
               content: Text('Signin Failed!'),
               duration: Duration(seconds: 3),
               behavior: SnackBarBehavior.fixed,
@@ -44,6 +46,7 @@ class _SignInViewState extends State<SignInView> {
                 borderRadius: BorderRadius.only(topLeft: Radius.circular(18.0), topRight: Radius.circular(18.0))
               ),
             ));
+        
       }
     }
 
@@ -88,7 +91,7 @@ class _SignInViewState extends State<SignInView> {
                             //Xu ly chuyen trang dang ky
                             onPressed: () => Navigator.push(context,
                                 MaterialPageRoute(builder: (context) {
-                              return SignUpView();
+                              return CompanySigninView();
                             })),
                             child: Text(
                               'Sign Up',

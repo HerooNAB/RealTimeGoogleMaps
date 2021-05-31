@@ -1,8 +1,9 @@
 import 'package:client/Models/location_model.dart';
 import 'package:client/Services/location_service.dart';
+import 'package:client/Views/signin_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'Views/companysignup_view.dart';
+
 
 void main() {
   runApp(MyApp());
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData.light(), 
         //ThemeData.light(),
-        home: CompanySignupView(),
+        home: SignInView(),
         
         
       ),
