@@ -1,4 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import TextField from "@material-ui/core/TextField";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import AppBar from "@material-ui/core/AppBar";
@@ -8,16 +13,7 @@ import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import Button from "@material-ui/core/Button";
-import Link from "@material-ui/core/Link";
-import Typography from "@material-ui/core/Typography";
-// import AddressForm from './AddressForm';
-// import PaymentForm from './PaymentForm';
-// import Review from './Review';
-import SignUpUserForm from "./SignUpUserForm";
-import NameCompanyForm from "./NameCompanyForm";
-import DoneForm from "./DoneForm";
-
-
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -56,24 +52,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const steps = ["Input Name Company", "Sign Up", "Done"];
-
-function getStepContent(step) {
-  switch (step) {
-    case 0:
-      return <NameCompanyForm />;
-    case 1:
-      return <SignUpUserForm />;
-    case 2:
-      return <DoneForm />;
-    default:
-      throw new Error("Unknown step");
-  }
-}
-
 export default function SignUpUser() {
+  const steps = ["Input Name Company", "Sign Up", "Done"];
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
+  // const [companyToken, setCompanyToken] = useState("");
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
@@ -82,6 +65,167 @@ export default function SignUpUser() {
   const handleBack = () => {
     setActiveStep(activeStep - 1);
   };
+
+  const [companyName, setCompanyName] = useState();
+  const handleCompanyNameChange = (event) => {
+    setCompanyName(event.target.value);
+    // console.log(companyName);
+  };
+
+  const [signupAdmin, setSignupAdmin] = useState({
+    email: "",
+    phone: "",
+    name: "",
+    password: "",
+    role: "admin",
+  });
+
+  useEffect(() => {
+    if (activeStep === 1) {
+      console.log("đăng nhập company");
+      console.log(companyName);
+      axios
+        .post("http://localhost:908/company/signin", {
+          name: companyName,
+        })
+        .then((response) => {
+          const token = response.data.token;
+          // console.log(token);
+          localStorage.setItem("companyToken", token);
+          console.log(localStorage.getItem("companyToken"));
+          // setCompanyToken(token);
+          // console.log(companyToken);
+          // setSignupAdmin({ ...signupAdmin, company: token });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else if (activeStep === 2) {
+      console.log("aloalo ");
+      axios
+        .post("http://localhost:908/user/signup", signupAdmin, {
+          headers: { Authorization: localStorage.getItem("companyToken") },
+        })
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [activeStep]);
+
+  function getStepContent(step) {
+    switch (step) {
+      case 0:
+        return (
+          <React.Fragment>
+            <Typography variant="h6" gutterBottom>
+              Input Your Name Company
+            </Typography>
+            <Grid container spacing={3}>
+              <Grid item xs={12}>
+                <TextField
+                  value={companyName}
+                  onChange={handleCompanyNameChange}
+                  required
+                  id="address1"
+                  name="address1"
+                  label="Name Company"
+                  fullWidth
+                  autoComplete="shipping address-line1"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      color="secondary"
+                      name="saveAddress"
+                      value="yes"
+                    />
+                  }
+                  label="I use this company name"
+                />
+              </Grid>
+            </Grid>
+          </React.Fragment>
+        );
+      case 1:
+        return (
+          <React.Fragment>
+            <Typography variant="h6" gutterBottom>
+              Sign Up
+            </Typography>
+            <Grid container spacing={3}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  id="firstName"
+                  name="firstName"
+                  label="Email"
+                  fullWidth
+                  autoComplete="given-name"
+                  onChange={(e) =>
+                    setSignupAdmin({ ...signupAdmin, email: e.target.value })
+                  }
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  id="lastName"
+                  name="lastName"
+                  label="Name"
+                  fullWidth
+                  autoComplete="family-name"
+                  onChange={(e) =>
+                    setSignupAdmin({ ...signupAdmin, name: e.target.value })
+                  }
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  id="address1"
+                  name="Password"
+                  label="Phone"
+                  fullWidth
+                  autoComplete="shipping address-line1"
+                  onChange={(e) =>
+                    setSignupAdmin({ ...signupAdmin, phone: e.target.value })
+                  }
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  id="address2"
+                  name="address2"
+                  label="Password"
+                  fullWidth
+                  autoComplete="shipping address-line2"
+                  onChange={(e) =>
+                    setSignupAdmin({ ...signupAdmin, password: e.target.value })
+                  }
+                />
+              </Grid>
+            </Grid>
+          </React.Fragment>
+        );
+      case 2:
+        return (
+          <React.Fragment>
+            <Grid container spacing={3}>
+              <Grid item xs={12}>
+                <h1>Ready Sign Up</h1>
+              </Grid>
+            </Grid>
+          </React.Fragment>
+        );
+      default:
+        throw new Error("Unknown step");
+    }
+  }
 
   return (
     <React.Fragment>
@@ -111,9 +255,7 @@ export default function SignUpUser() {
                 <Typography variant="h5" gutterBottom>
                   Thank you Sign Up.
                 </Typography>
-                <Typography variant="subtitle1">
-                   Done Sign Up
-                </Typography>
+                <Typography variant="subtitle1">Done Sign Up</Typography>
               </React.Fragment>
             ) : (
               <React.Fragment>

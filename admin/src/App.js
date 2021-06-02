@@ -1,13 +1,11 @@
 import "./App.css";
-import React,{useEffect,createContext,useReducer,useContext} from 'react';
+import React, { useEffect, createContext, useReducer, useContext } from "react";
 import GoogleMap from "./components/GoogleMap";
-import {reducer,initialState} from './reducers/userReducer'
+import { reducer, initialState } from "./reducers/userReducer";
 import { BrowserRouter, Route, Switch, useHistory } from "react-router-dom";
 import AdminPage from "./pages/AdminPage";
 import LoginPage from "./pages/LoginPage";
-import SignUpUser from "./pages/SignUpUser"
-import NameCompanyForm from "./pages/NameCompanyForm";
-
+import SignUpUser from "./pages/SignUpUser";
 
 export const UserContext = createContext();
 
@@ -19,15 +17,14 @@ const Routing = () => {
     if (user) {
       dispatch({ type: "USER", payload: user });
     } else {
-      if (!history.location.pathname.startsWith("/reset"))
-        history.push("/");
+      if (!history.location.pathname.startsWith("/reset")) history.push("/");
     }
   }, []);
   return (
     <Switch>
       <Route exact path="/">
-        {/* <SignUpUser/> */}
-        <LoginPage/>
+        <SignUpUser />
+        {/* <LoginPage/> */}
       </Route>
       <Route path="/admin">
         <AdminPage />
@@ -36,9 +33,8 @@ const Routing = () => {
         <LoginPage />
       </Route>
       <Route path="/signup">
-        <SignUpUser/>
+        <SignUpUser />
       </Route>
-
     </Switch>
   );
 };
