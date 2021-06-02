@@ -60,4 +60,16 @@ router.get("/company/:id", (req, res) => {
   });
 });
 
+router.get("/company/listuser/:id", (req, res) => {
+  User.find({ company: req.params.id })
+    .populate("-company")
+    .then((listUser) => {
+      res.json({ listUser });
+    })
+    .catch((err) => {
+      console.log(err);
+      return res.status(404).json({ error: "loi" });
+    });
+});
+
 module.exports = router;

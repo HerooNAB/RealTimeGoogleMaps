@@ -10,7 +10,7 @@ const cors = require("cors");
 require("dotenv").config();
 const PORT = process.env.PORT;
 
-const Atlas = process.env.Atlas;
+// const Atlas = process.env.Atlas;
 
 const bodyParser = require("body-parser");
 app.use(cors());
