@@ -60,9 +60,9 @@ router.get("/company/:id", (req, res) => {
   });
 });
 
-router.get("/company/listuser/:id", (req, res) => {
-  User.find({ company: req.params.id })
-    .populate("-company")
+router.get("/company/listuser/:id", RequireLogin, (req, res) => {
+  User.find({ company: req.params.id, role: "user" })
+    .populate("-company", "-role")
     .then((listUser) => {
       res.json({ listUser });
     })
