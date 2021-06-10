@@ -3,11 +3,19 @@ import React, { useEffect, createContext, useReducer, useContext } from "react";
 import GoogleMap from "./components/GoogleMap";
 import { reducer, initialState } from "./reducers/userReducer";
 import { BrowserRouter, Route, Switch, useHistory } from "react-router-dom";
+
+//import Page
 import AdminPage from "./pages/AdminPage";
 import LoginPage from "./pages/LoginPage";
 import SignUpUser from "./pages/SignUpUser";
+import ProfileAdmin from "./pages/ProfilePage";
+
+//import components
+import NavBar from './components/Navbar';
+
 
 export const UserContext = createContext();
+
 
 const Routing = () => {
   const history = useHistory();
@@ -24,16 +32,21 @@ const Routing = () => {
     <Switch>
       <Route exact path="/">
         <SignUpUser />
-        {/* <LoginPage/> */}
+        {/* <LoginPage /> */}
+        {/* <Test1/> */}
+        {/* <PrimarySearchAppBar/> */}
       </Route>
       <Route path="/admin">
         <AdminPage />
       </Route>
-      <Route path="/login">
+      <Route exact path="/login">
         <LoginPage />
       </Route>
       <Route path="/signup">
         <SignUpUser />
+      </Route>
+      <Route path="/profile">
+        <ProfileAdmin/>
       </Route>
     </Switch>
   );
@@ -44,6 +57,7 @@ function App() {
   return (
     <UserContext.Provider value={{ state, dispatch }}>
       <BrowserRouter>
+        {/* <NavBar /> */}
         <Routing />
       </BrowserRouter>
     </UserContext.Provider>

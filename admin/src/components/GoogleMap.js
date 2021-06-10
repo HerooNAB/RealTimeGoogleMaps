@@ -16,6 +16,7 @@ class GoogleMap extends React.Component {
   }
 
   componentDidMount() {
+    //lấy danh sách location từ DB
     axios
       .get(`http://localhost:908/alllocation`)
       .then((res) => {
@@ -31,6 +32,7 @@ class GoogleMap extends React.Component {
         const locationForRoadsApi = formatData.join("|");
         console.log(locationForRoadsApi);
         this.setState({ locationForRoadsApi });
+        //Sau khi format location truyền vào api snapToRoads
         axios
           .get(`https://roads.googleapis.com/v1/snapToRoads`, {
             params: {

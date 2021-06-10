@@ -16,9 +16,9 @@ import Container from "@material-ui/core/Container";
 import AirportShuttleIcon from "@material-ui/icons/AirportShuttle";
 import handleLogin from "../api/api";
 import axios from "axios";
-import M from 'materialize-css';
 
-import jwt from 'jwt-decode'
+
+import jwt from "jwt-decode";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -40,30 +40,45 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
+
 export default function SignIn() {
   const { state, dispatch } = useContext(UserContext);
   const history = useHistory();
   const classes = useStyles();
   const [phone, setPhone] = useState();
   const [password, setPassword] = useState();
-
+  const [errorsPhone,setErrorsPhone] = useState();
+  const [errorsPassword,setErrorsPassword] = useState();
   const handlePhoneChange = (event) => {
     setPhone(event.target.value);
+    setErrorsPhone({phone: ''})
+    const regexPhone = new RegExp(/(03|07|08|09|01[2|6|8|9])+([0-9]{8})\b/).test(event.target.value)
+    
+    if(event.target.value == ""){
+      setErrorsPhone({phone: "khong duoc de trong"})     
+    }
+    else if(!regexPhone){
+      setErrorsPhone({phone: "Khong phai so dt"})
+    }
+    
   };
 
   const handlePasswordChange = (event) => {
+    setErrorsPassword({password: ''})
     setPassword(event.target.value);
+    if(event.target.value == ""){
+      setErrorsPassword({password: "khong duoc de trong"})
+    }
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    var toastHTML = '<span>I am toast content</span><button class="btn-flat toast-action">Undo</button>';
-    if(!/(03|07|08|09|01[2|6|8|9])+([0-9]{8})\b/.test(phone)){
-      M.toast({html: 'I am a toast!', classes: 'rounded'})
-      return
-  }
     axios
-      .post("http://localhost:908/user/signin", { phone: phone, password: password })
+      .post("http://localhost:908/user/signin", {
+        phone: phone,
+        password: password,
+      })
       .then((response) => {
         const token = response.data.token;
         const user = jwt(token);
@@ -74,21 +89,19 @@ export default function SignIn() {
           localStorage.setItem("accessToken", response.data.token);
           localStorage.setItem("user", JSON.stringify(user));
           dispatch({ type: "USER", payload: user });
-          M.toast({html:"signedin success",classes:"#43a047 green darken-1"})
           history.push("/admin");
-        }
-        else{
-          history.push('/')
-          console.log("Khong phai admin")
+        } else {
+          history.push("/");
+          console.log("Khong phai admin");
         }
       })
-      
 
       .catch((error) => {
         console.log(error);
       });
-
   };
+
+  
 
   return (
     <Container component="main" maxWidth="xs">
@@ -100,6 +113,7 @@ export default function SignIn() {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
+      
         <form className={classes.form} noValidate>
           <TextField
             variant="outlined"
@@ -109,9 +123,12 @@ export default function SignIn() {
             id="phone"
             label="Phone Number"
             name="phone"
+            error={Boolean(errorsPhone?.phone)}
+            helperText={errorsPhone?.phone}
             autoFocus
             onChange={handlePhoneChange}
           />
+
           <TextField
             variant="outlined"
             margin="normal"
@@ -121,6 +138,8 @@ export default function SignIn() {
             label="Password"
             type="password"
             id="password"
+            error={Boolean(errorsPassword?.password)}
+            helperText={errorsPassword?.password}
             // autoComplete="current-password"
             onChange={handlePasswordChange}
           />

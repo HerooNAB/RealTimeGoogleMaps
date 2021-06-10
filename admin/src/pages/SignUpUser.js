@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
@@ -53,10 +54,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignUpUser() {
-  const steps = ["Input Name Company", "Sign Up", "Done"];
+  const steps = ["Input Name Company", "Sign Up"];
   const classes = useStyles();
+  const history = useHistory();
   const [activeStep, setActiveStep] = React.useState(0);
   // const [companyToken, setCompanyToken] = useState("");
+
+  
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
@@ -90,23 +94,20 @@ export default function SignUpUser() {
         })
         .then((response) => {
           const token = response.data.token;
-          // console.log(token);
           localStorage.setItem("companyToken", token);
           console.log(localStorage.getItem("companyToken"));
-          // setCompanyToken(token);
-          // console.log(companyToken);
-          // setSignupAdmin({ ...signupAdmin, company: token });
         })
         .catch((error) => {
           console.log(error);
         });
     } else if (activeStep === 2) {
-      console.log("aloalo ");
+      history.push("/login");
       axios
         .post("http://localhost:908/user/signup", signupAdmin, {
           headers: { Authorization: localStorage.getItem("companyToken") },
         })
         .then((response) => {
+          
           console.log(response);
         })
         .catch((error) => {
@@ -164,6 +165,7 @@ export default function SignUpUser() {
                   id="firstName"
                   name="firstName"
                   label="Email"
+                  value = {signupAdmin.email}
                   fullWidth
                   autoComplete="given-name"
                   onChange={(e) =>
@@ -202,22 +204,13 @@ export default function SignUpUser() {
                   id="address2"
                   name="address2"
                   label="Password"
+                  type="password"
                   fullWidth
                   autoComplete="shipping address-line2"
                   onChange={(e) =>
                     setSignupAdmin({ ...signupAdmin, password: e.target.value })
                   }
                 />
-              </Grid>
-            </Grid>
-          </React.Fragment>
-        );
-      case 2:
-        return (
-          <React.Fragment>
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
-                <h1>Ready Sign Up</h1>
               </Grid>
             </Grid>
           </React.Fragment>
@@ -230,17 +223,17 @@ export default function SignUpUser() {
   return (
     <React.Fragment>
       <CssBaseline />
-      <AppBar position="absolute" color="default" className={classes.appBar}>
+      {/* <AppBar position="absolute" color="default" className={classes.appBar}>
         <Toolbar>
           <Typography variant="h6" color="inherit" noWrap>
             Company name
           </Typography>
         </Toolbar>
-      </AppBar>
+      </AppBar> */}
       <main className={classes.layout}>
         <Paper className={classes.paper}>
           <Typography component="h1" variant="h4" align="center">
-            Sign Up User
+            Sign Up Admin
           </Typography>
           <Stepper activeStep={activeStep} className={classes.stepper}>
             {steps.map((label) => (
