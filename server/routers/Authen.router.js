@@ -60,7 +60,11 @@ router.post("/user/signin", (req, res) => {
       .compare(password, savedUser.password)
       .then((doMatch) => {
         if (doMatch) {
-          const token = jwt.sign({ _id: savedUser._id, role: savedUser.role}, process.env.JWT_KEY);
+          const token = jwt.sign(
+            { _id: savedUser._id, role: savedUser.role },
+            process.env.JWT_KEY,
+            { expiresIn: "7d" }
+          );
           const {
             _id,
             name,
