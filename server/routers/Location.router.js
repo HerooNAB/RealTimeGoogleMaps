@@ -24,8 +24,12 @@ router.get("/alllocation", RequireLogin, (req, res) => {
     });
 });
 
-router.get("/location/:id", (req, res) => {
-  Location.find({ postedBy: req.params.id })
+router.get("/location/:id", RequireLogin, (req, res) => {
+  // console.log(req.body.time + "T00:00:00.000+00:00");
+  Location.find({
+    postedBy: req.params.id,
+    time: req.body.time + "T00:00:00.000+00:00",
+  })
     .populate("-postedBy")
     .then((Locations) => {
       res.json({ Locations });
