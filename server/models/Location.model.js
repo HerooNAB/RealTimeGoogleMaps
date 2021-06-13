@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Schema.Types;
 
-date = new Date("2021-06-12T00:00:00.000+00:00");
+// date = new Date("2021-06-12T00:00:00.000+00:00");
+date = new Date();
 year = date.getFullYear();
 month = date.getMonth() + 1;
 dt = date.getDate();
@@ -34,7 +35,7 @@ const LocationSchema = new mongoose.Schema(
       ref: "User",
     },
     time: {
-      type: Date,
+      type: String,
       default: time,
     },
   }
