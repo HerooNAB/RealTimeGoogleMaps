@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-export default function SignIn() {
+ function SignIn() {
   const { state, dispatch } = useContext(UserContext);
   const history = useHistory();
   const classes = useStyles();
@@ -175,3 +175,5 @@ export default function SignIn() {
     </Container>
   );
 }
+
+export default SignIn;

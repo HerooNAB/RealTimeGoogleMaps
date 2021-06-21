@@ -9,13 +9,13 @@ import AdminPage from "./pages/AdminPage";
 import LoginPage from "./pages/LoginPage";
 import SignUpUser from "./pages/SignUpUser";
 import ProfileAdmin from "./pages/ProfilePage";
-
+import DashBoard from "./pages/DashBoard";
+import Layout from "./components/Layout";
 //import components
-import NavBar from './components/Navbar';
-
+import NavBar from "./components/Navbar";
+import MapTest from "./components/MapTest";
 
 export const UserContext = createContext();
-
 
 const Routing = () => {
   const history = useHistory();
@@ -31,23 +31,29 @@ const Routing = () => {
   return (
     <Switch>
       <Route exact path="/">
-        <SignUpUser />
-        {/* <LoginPage /> */}
-        {/* <Test1/> */}
-        {/* <PrimarySearchAppBar/> */}
-      </Route>
-      <Route path="/admin">
-        <AdminPage />
-      </Route>
-      <Route exact path="/login">
         <LoginPage />
       </Route>
-      <Route path="/signup">
-        <SignUpUser />
-      </Route>
-      <Route path="/profile">
-        <ProfileAdmin/>
-      </Route>
+      <Layout>
+        <Route path="/map">
+          <GoogleMap/>
+          {/* <MapTest/> */}
+        </Route>
+        <Route path="/dashboard">
+          <DashBoard />
+        </Route>
+        <Route path="/admin">
+          <AdminPage />
+        </Route>
+        <Route path="/login">
+          <LoginPage />
+        </Route>
+        <Route path="/signup">
+          <SignUpUser />
+        </Route>
+        <Route path="/profile">
+          <ProfileAdmin />
+        </Route>
+      </Layout>
     </Switch>
   );
 };

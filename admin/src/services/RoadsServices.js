@@ -10,6 +10,11 @@ export const drawPolyLine = (inputPath) => {
     );
 };
 
+
+export const DataCollection = () => {
+  
+}
+
 export const displayMarkers = (inputLocation) => {
     return inputLocation.map((location, index) => {
       return (

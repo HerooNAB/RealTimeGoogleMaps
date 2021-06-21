@@ -1,24 +1,33 @@
-import React from "react";
+import React,{Component,PureComponent} from "react";
 import axios from "../api/api";
 import { drawPolyLine, displayMarkers } from "../services/RoadsServices";
 import { Map, GoogleApiWrapper } from "google-maps-react";
+import { useParams, withRouter,useHistory, useLocation } from "react-router-dom";
+import Button from '@material-ui/core/Button';
 
-class GoogleMap extends React.Component {
+class GoogleMap extends PureComponent{
   constructor(props) {
     super(props);
-
     this.state = {
-      restrictApiKey: "AIzaSyDJ8qtUhVb7se1VMUsNugrAY6EZIEnJoVg",
+      restrictApiKey: "AIzaSyBBlCjhbUgXc85_yqcce_NgiUeA_89N8AI",
       formatLocation: [],
       formatLocationFromUser: [],
       locationForRoadsApi: "",
     };
   }
 
+  
+  
   componentDidMount() {
-    //lấy danh sách location từ DB
-    axios
-      .get(`http://localhost:908/alllocation`)
+    //get id User từ layout
+    const getState = this.props.location.state;  
+    if(getState === undefined){
+      console.log(getState);
+    }else{
+      const idUser = getState.id;
+      console.log(idUser);
+      axios
+      .get("http://localhost:908/location/" + idUser)
       .then((res) => {
         const locations = res.data.Locations;
         console.log(locations);
@@ -32,9 +41,8 @@ class GoogleMap extends React.Component {
         const locationForRoadsApi = formatData.join("|");
         console.log(locationForRoadsApi);
         this.setState({ locationForRoadsApi });
-        //Sau khi format location truyền vào api snapToRoads
         axios
-          .get(`https://roads.googleapis.com/v1/snapToRoads`, {
+          .get("https://roads.googleapis.com/v1/snapToRoads", {
             params: {
               interpolate: true,
               key: this.state.restrictApiKey,
@@ -57,7 +65,9 @@ class GoogleMap extends React.Component {
           .catch((error) => console.log(error));
       })
       .catch((error) => console.log(error));
+    }
   }
+
   render() {
     return (
       <div>
@@ -77,6 +87,8 @@ class GoogleMap extends React.Component {
   }
 }
 
-export default GoogleApiWrapper({
-  apiKey: "AIzaSyDJ8qtUhVb7se1VMUsNugrAY6EZIEnJoVg",
-})(GoogleMap);
+export default withRouter(
+  GoogleApiWrapper({
+    apiKey: "AIzaSyBBlCjhbUgXc85_yqcce_NgiUeA_89N8AI",
+  })(GoogleMap)
+);
