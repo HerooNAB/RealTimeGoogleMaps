@@ -17,6 +17,7 @@ import ExpandMore from "@material-ui/icons/ExpandMore";
 import Collapse from "@material-ui/core/Collapse";
 import { Link } from "react-router-dom";
 import DashboardIcon from "@material-ui/icons/Dashboard";
+import LocationOnSharpIcon from '@material-ui/icons/LocationOnSharp';
 import { AddCircleOutlineOutlined, NoEncryption, SubjectOutlined } from "@material-ui/icons";
 import GoogleMap from "./GoogleMap";
 import axios from "../api/api";
@@ -117,6 +118,11 @@ function Layout({ children }) {
       icon: <PersonIcon />,
       path: "/profile",
     },
+    {
+      text: "Tracking",
+      icon: <LocationOnSharpIcon/>,
+      path: "/admin",
+    }
   ];
 
   return (
@@ -166,7 +172,7 @@ function Layout({ children }) {
               <List component="div" disablePadding>
                 {/* <Link to={"/map/" + item._id }> */}
                   <ListItem
-                    onClick={() => history.push({pathname:'/map/',state:{id: item._id}})}
+                    onClick={()=>history.push({pathname:'/user',state:{id: item._id}})}
                     button
                     className={classes.nested}
                   >

@@ -5,15 +5,17 @@ import { reducer, initialState } from "./reducers/userReducer";
 import { BrowserRouter, Route, Switch, useHistory } from "react-router-dom";
 
 //import Page
-import AdminPage from "./pages/AdminPage";
 import LoginPage from "./pages/LoginPage";
 import SignUpUser from "./pages/SignUpUser";
 import ProfileAdmin from "./pages/ProfilePage";
 import DashBoard from "./pages/DashBoard";
 import Layout from "./components/Layout";
+import LogisticPage from "./pages/TrackingPage";
+import DetailUser from "./pages/DetailUser";
 //import components
 import NavBar from "./components/Navbar";
 import MapTest from "./components/MapTest";
+import TrackingPage from "./pages/TrackingPage";
 
 export const UserContext = createContext();
 
@@ -35,14 +37,14 @@ const Routing = () => {
       </Route>
       <Layout>
         <Route path="/map">
-          <GoogleMap/>
+          <GoogleMap />
           {/* <MapTest/> */}
         </Route>
         <Route path="/dashboard">
           <DashBoard />
         </Route>
         <Route path="/admin">
-          <AdminPage />
+          <TrackingPage/>
         </Route>
         <Route path="/login">
           <LoginPage />
@@ -52,6 +54,9 @@ const Routing = () => {
         </Route>
         <Route path="/profile">
           <ProfileAdmin />
+        </Route>
+        <Route path="/user">
+          <DetailUser/>
         </Route>
       </Layout>
     </Switch>
