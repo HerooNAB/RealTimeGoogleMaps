@@ -3,6 +3,7 @@ import 'package:client/Services/location_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+
 class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -21,3 +22,4 @@ class HomeView extends StatelessWidget {
     );
   }
 }
+

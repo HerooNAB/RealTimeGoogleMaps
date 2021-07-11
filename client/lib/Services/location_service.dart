@@ -41,22 +41,9 @@ class LocationService {
     });
     if (response.statusCode == 200) {
       print("Result: ${response.body}");
-      print('thanh cong');
     } else {
       print('that bai');
     }
     return response.body;
   }
-
-  // static Future<String> gettset() async {
-  //   String apiUrl = 'http://192.168.1.7:0908/allpost';
-  //   http.Response response = await http.get(apiUrl);
-  //   if (response.statusCode == 200) {
-  //     print("Result: ${response.body}");
-  //     print('thanh cong');
-  //   } else {
-  //     print('that bai');
-  //   }
-  //   return response.body;
-  // }
 }

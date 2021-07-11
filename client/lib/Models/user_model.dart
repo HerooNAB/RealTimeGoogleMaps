@@ -9,10 +9,9 @@ class User{
   String role;
 
 
-  User({this.userId, this.name, this.phone, this.email, this.password, this.avatar, this.bio, this.role });
+  User({this.userId, this.name, this.phone, this.email, this.password, this.avatar, this.bio, this.role});
 
    User.fromJson(Map<String, dynamic> json){
-    
     userId = json['_id'];
     name = json['name'];
     phone = json['phone'];

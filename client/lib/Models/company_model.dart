@@ -1,5 +1,3 @@
-
-
 class Company{
   String name;
   String phone;
@@ -21,6 +19,7 @@ class Company{
     data['phone'] = this.phone;
     data['email'] = this.email;
     data['web'] = this.web;
+    return data;
   }
 }
 

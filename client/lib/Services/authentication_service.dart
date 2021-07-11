@@ -1,16 +1,10 @@
 import 'dart:convert';
-
-import 'package:client/Models/company_model.dart';
 import 'package:client/Models/server.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
-
 import 'package:shared_preferences/shared_preferences.dart';
 
-//import 'package:shared_preferences/shared_preferences.dart';
-
-
-class AuthService{
+class AuthService {
   static Future<String> signupService(name, email, phone, password) async {
     final prefs = await SharedPreferences.getInstance();
     final keyToken = 'token';
@@ -22,15 +16,11 @@ class AuthService{
       'email': email,
       'phone': phone,
       'password': password,
-      'role': 'user' 
-    }, headers: {'Authorization': 'Bearer $token'});
-    
-    if (response.statusCode == 200) {
-      print("Result: ${response.body}");
-    } else {
-      print('dang ky that bai');
-    }
-    return null;
+      'role': 'user'
+    }, headers: {
+      'Authorization': 'Bearer $token'
+    });
+    return ("${response.statusCode}");
   }
 
   static Future<String> signInService(phone, password) async {
@@ -38,21 +28,13 @@ class AuthService{
     final keyToken = 'token';
     final token = prefs.get(keyToken) ?? 0;
     String apiUrl = '$URL_SIGNINUSER';
-   
-    http.Response response =
-        await http.post(apiUrl, body: {'phone': phone, 'password': password}, 
-        headers: {'Authorization': 'Bearer$token'});
+  
 
-    if(response.statusCode == 200) {
-      var jsonResponseToken = json.decode(response.body);
-      prefs.setString("token", jsonResponseToken['token']);
-      print('danh nhap thanh cong');
-      print(jsonResponseToken);
-      print("Result: ${response.body}");
-      print('dang nhap thanh cong');
-    } else {
-      print('dang nhap that bai');
-    }
-    return null;
+    http.Response response = await http.post(apiUrl,
+        body: {'phone': phone, 'password': password},
+        headers: {'Authorization': 'Bearer$token'});
+    var jsonResponseToken = json.decode(response.body); 
+    jsonResponseToken = prefs?.setString("token", jsonResponseToken['token']);
+    return ("${response.statusCode}");
   }
 }

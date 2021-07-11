@@ -4,7 +4,6 @@ import 'package:client/Views/signin_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-
 void main() {
   runApp(MyApp());
 }
@@ -17,10 +16,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData.light(), 
-        //ThemeData.light(),
         home: SignInView(),
-        
-        
       ),
     );
   }

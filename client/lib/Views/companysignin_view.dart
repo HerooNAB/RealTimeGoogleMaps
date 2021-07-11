@@ -4,6 +4,7 @@ import 'package:client/Views/signup_view.dart';
 import 'package:flutter/material.dart';
 
 
+
 class CompanySigninView extends StatefulWidget {
   @override
   _CompanySigninViewState createState() => _CompanySigninViewState();
@@ -11,39 +12,44 @@ class CompanySigninView extends StatefulWidget {
 
 class _CompanySigninViewState extends State<CompanySigninView> {
   String _name = '';
-  TextEditingController _nameController
-       = TextEditingController();
+  TextEditingController _nameController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     //Signup Method + chuyen qua trang signupview sau khi signup company
-   _signin(){
+   _signin() async{
        //check validate
-      if (_formKey.currentState.validate()) {
-        CompanyAuth.signinCompService(_name)
-            .then((value) => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: Text('Signin Company Successfully!'),
+      _formKey.currentState.validate();
+        await CompanyAuth.signinCompService(_name).then((res) async{
+             if (res == '200') {
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              content: Text('Signin Successfully!'),
               duration: Duration(seconds: 3),
               behavior: SnackBarBehavior.fixed,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(18.0), topRight: Radius.circular(18.0))
-              ),
-            )));
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return SignUpView();
-        }));
-        _formKey.currentState.save();
-      } else {
-        return ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: Text('Signin Company Failed!'),
-              duration: Duration(seconds: 3),
-              behavior: SnackBarBehavior.fixed,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(18.0), topRight: Radius.circular(18.0))
-              ),
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(18.0),
+                      topRight: Radius.circular(18.0))),
             ));
-      }
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => SignUpView()),
+                (route) => false);
+        }
+         else{
+           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              content: Text('Your phone number or password is wrong!'),
+              duration: Duration(seconds: 3),
+              behavior: SnackBarBehavior.fixed,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(18.0),
+                      topRight: Radius.circular(18.0))),
+            ));
+         }
+        }); 
+      
     }
 
     Size size = MediaQuery.of(context).size;
@@ -57,46 +63,42 @@ class _CompanySigninViewState extends State<CompanySigninView> {
                   child: Stack(
                     alignment: Alignment.center,
                     children: <Widget>[
-                      authenticationComponents(context), //components              
-                      //Form 
+                      authenticationComponents(context), //components
+                      //Form
                       Positioned(
-                        top: 155,
-                        right: 50,
-                        child: Image.asset("assets/images/FormSignup.png",
+                        top: size.height * 0.36,
+                        right: size.width * 0.13,
+                        child: Image.asset("assets/images/Company.png",
                             width: size.width),
                       ),
-                       Positioned(
-                          top: 90,
-                          right: 330,
-                          child: TextButton(
-                            style: ButtonStyle(
-                              foregroundColor: MaterialStateProperty.all<Color>(
-                                  Colors.grey),
-                            ),
-                            onPressed: () => Navigator.of(context).pop(),
-                            child: Text(
-                              'Sign In',
-                              style: TextStyle(fontSize: 18),
-                            ),
-                          )),
+                      Positioned(
+                        top: size.height * 0.08,
+                        right: size.width * 0.87,
+                        child: IconButton(
+                          icon: Icon(Icons.keyboard_backspace_outlined),
+                          iconSize: 33,
+                          color: Colors.blue[300],
+                          onPressed: () => Navigator.of(context).pop(),
+                        ),
+                      ),
                       //Text title
                       Positioned(
-                          top: 205,
-                          right: 155,
+                          top: size.height * 0.4,
+                          right: size.width * 0.34,
                           child: Container(
                             alignment: Alignment.center,
                             child: Text(
-                              'Enter your company name',
+                              'ENTER YOUR COMPANY',
                               style: TextStyle(
-                                fontSize: 20,
+                                fontSize: 23,
                                 color: Colors.white,
                               ),
                             ),
                           )),
                       //User_name Field
                       Positioned(
-                        top: 255,
-                        right: 150,
+                        top: size.height * 0.45,
+                        right: size.width * 0.34,
                         child: Container(
                           height: 50,
                           width: 240,
@@ -106,7 +108,7 @@ class _CompanySigninViewState extends State<CompanySigninView> {
                           ),
                           child: TextFormField(
                             controller: _nameController,
-                            autofocus: true,
+                            autofocus: false,
                             decoration: InputDecoration(
                                 hintText: 'Company name',
                                 hintStyle:
@@ -140,10 +142,10 @@ class _CompanySigninViewState extends State<CompanySigninView> {
                           ),
                         ),
                       ),
-                      //Signin Button
+                      //Signin Company Button
                       Positioned(
-                          top: 330,
-                          right: 65,
+                          top: size.height * 0.44,
+                          right: size.width * 0.17  ,
                           child: FloatingActionButton(
                             backgroundColor: Colors.yellow[400],
                             child: Container(
