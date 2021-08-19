@@ -43,9 +43,9 @@ class GoogleMap extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      restrictApiKey: "AIzaSyBBlCjhbUgXc85_yqcce_NgiUeA_89N8AI",
+      restrictApiKey: "AIzaSyCdNikSpHq1KM6IO_6a1JdjBh2p6tktQ2E",
       formatLocation: [],
-      formatLocationFromUser: [],
+      // formatLocationFromUser: [],
       locationForRoadsApi: "",
     };
   }
@@ -67,8 +67,8 @@ class GoogleMap extends Component {
         })
         .then((res) => {
           const locations = res.data.Locations;
-          console.log(locations);
-          this.setState({ locations });
+          console.log(locations);   
+          // this.setState({ locations });
           //format Data có định dạng x,y|x2,y2|x3,y3|xn,yn
           //để truyền vàio path của Roads Api Google
           var formatData = [];
@@ -132,7 +132,7 @@ class GoogleMap extends Component {
 }
 export default withRouter(
   GoogleApiWrapper({
-    apiKey: "AIzaSyBBlCjhbUgXc85_yqcce_NgiUeA_89N8AI",
+    apiKey: "AIzaSyCdNikSpHq1KM6IO_6a1JdjBh2p6tktQ2E",
   })(GoogleMap)
 );
 

@@ -143,7 +143,7 @@ export default function ProfileAdmin() {
                 </FormControl>
                 <FormControl fullWidth className={classes.margin}>
                   <InputLabel htmlFor="standard-adornment-amount">
-                    Compnay Email
+                    Company Email
                   </InputLabel>
                   <Input id="standard-adornment-amount" value={item.email} />
                 </FormControl>

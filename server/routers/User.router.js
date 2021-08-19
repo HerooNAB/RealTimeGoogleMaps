@@ -9,7 +9,7 @@ router.get("/user/me", RequireLogin, (req, res) => {
   res.send(req.user);
 });
 
-router.get("/user/:id", RequireLogin, (req, res) => {
+router.get("/user/:id",(req, res) => {
   User.find({
     _id: req.params.id,
   })

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -15,10 +15,22 @@ import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
     position: "relative",
+  },
+  button: {
+    display: "block",
+    marginTop: theme.spacing(2),
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
   },
   layout: {
     width: "auto",
@@ -54,13 +66,26 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignUpUser() {
-  const steps = ["Input Name Company", "Sign Up"];
+  const steps = ["Input Code Company", "Sign Up"];
   const classes = useStyles();
   const history = useHistory();
   const [activeStep, setActiveStep] = React.useState(0);
   // const [companyToken, setCompanyToken] = useState("");
 
-  
+  // const [age, setAge] = React.useState("");
+  const [open, setOpen] = React.useState(false);
+
+  // const handleChange = (event) => {
+  //   setAge(event.target.value);
+  // };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
@@ -70,10 +95,10 @@ export default function SignUpUser() {
     setActiveStep(activeStep - 1);
   };
 
-  const [companyName, setCompanyName] = useState();
+  const [companyName, setCompanyName] = React.useState("");
   const handleCompanyNameChange = (event) => {
-    setCompanyName(event.target.value);
-    // console.log(companyName);
+    const name = event.target.value;
+    setCompanyName(name);
   };
 
   const [signupAdmin, setSignupAdmin] = useState({
@@ -107,7 +132,6 @@ export default function SignUpUser() {
           headers: { Authorization: localStorage.getItem("companyToken") },
         })
         .then((response) => {
-          
           console.log(response);
         })
         .catch((error) => {
@@ -126,16 +150,35 @@ export default function SignUpUser() {
             </Typography>
             <Grid container spacing={3}>
               <Grid item xs={12}>
-                <TextField
+                {/* <TextField
                   value={companyName}
                   onChange={handleCompanyNameChange}
                   required
                   id="address1"
                   name="address1"
-                  label="Name Company"
+                  label="Code Company"
                   fullWidth
                   autoComplete="shipping address-line1"
-                />
+                /> */}
+                <FormControl className={classes.formControl}>
+                  <InputLabel id="demo-controlled-open-select-label">
+                    Tỉnh/Thành Phố
+                  </InputLabel>
+                  <Select
+                    labelId="demo-controlled-open-select-label"
+                    id="address1"
+                    open={open}
+                    onClose={handleClose}
+                    onOpen={handleOpen}
+                    onChange={handleCompanyNameChange}
+                    value={companyName}
+                  >
+                    <MenuItem value="Hồ Chí Minh">Hồ Chí Minh</MenuItem>
+                    <MenuItem value="Hà Nội">Hà Nội</MenuItem>
+                    <MenuItem value="Phú Yên">Phú Yên</MenuItem>
+                    <MenuItem value="Star Company">Star Company</MenuItem>
+                  </Select>
+                </FormControl>
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel
@@ -146,7 +189,7 @@ export default function SignUpUser() {
                       value="yes"
                     />
                   }
-                  label="I use this company name"
+                  label="I use this company code"
                 />
               </Grid>
             </Grid>
@@ -165,7 +208,7 @@ export default function SignUpUser() {
                   id="firstName"
                   name="firstName"
                   label="Email"
-                  value = {signupAdmin.email}
+                  value={signupAdmin.email}
                   fullWidth
                   autoComplete="given-name"
                   onChange={(e) =>
@@ -223,17 +266,10 @@ export default function SignUpUser() {
   return (
     <React.Fragment>
       <CssBaseline />
-      {/* <AppBar position="absolute" color="default" className={classes.appBar}>
-        <Toolbar>
-          <Typography variant="h6" color="inherit" noWrap>
-            Company name
-          </Typography>
-        </Toolbar>
-      </AppBar> */}
       <main className={classes.layout}>
         <Paper className={classes.paper}>
           <Typography component="h1" variant="h4" align="center">
-            Sign Up Admin
+            Sign Up
           </Typography>
           <Stepper activeStep={activeStep} className={classes.stepper}>
             {steps.map((label) => (

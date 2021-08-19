@@ -1,5 +1,11 @@
 import "./App.css";
-import React, { useEffect, createContext, useReducer, useContext } from "react";
+import React, {
+  useEffect,
+  createContext,
+  useReducer,
+  useContext,
+  useRef,
+} from "react";
 import GoogleMap from "./components/GoogleMap";
 import { reducer, initialState } from "./reducers/userReducer";
 import { BrowserRouter, Route, Switch, useHistory } from "react-router-dom";
@@ -10,12 +16,12 @@ import SignUpUser from "./pages/SignUpUser";
 import ProfileAdmin from "./pages/ProfilePage";
 import DashBoard from "./pages/DashBoard";
 import Layout from "./components/Layout";
-import LogisticPage from "./pages/TrackingPage";
 import DetailUser from "./pages/DetailUser";
+import HomePage from "./pages/HomePage";
+import ControlledOpenSelect from "./pages/Demo";
 //import components
-import NavBar from "./components/Navbar";
-import MapTest from "./components/MapTest";
-import TrackingPage from "./pages/TrackingPage";
+
+import Map from "./components/Map";
 
 export const UserContext = createContext();
 
@@ -33,30 +39,49 @@ const Routing = () => {
   return (
     <Switch>
       <Route exact path="/">
+        {/* <HomePage /> */}
+        <HomePage/>
+      </Route>
+      <Route path="/signin">
         <LoginPage />
       </Route>
+      <Route path="/signup">
+        <SignUpUser />
+      </Route>
       <Layout>
-        <Route path="/map">
+        <Route path="/maptest">
           <GoogleMap />
-          {/* <MapTest/> */}
         </Route>
         <Route path="/dashboard">
           <DashBoard />
         </Route>
-        <Route path="/admin">
-          <TrackingPage/>
-        </Route>
         <Route path="/login">
           <LoginPage />
-        </Route>
-        <Route path="/signup">
-          <SignUpUser />
         </Route>
         <Route path="/profile">
           <ProfileAdmin />
         </Route>
         <Route path="/user">
-          <DetailUser/>
+          <DetailUser />
+        </Route>
+        <Route path="/demo">
+          <ControlledOpenSelect/>
+        </Route>
+        <Route path="/map">
+          <Map
+            googleMapURL={`https://maps.googleapis.com/maps/api/js?key=AIzaSyCdNikSpHq1KM6IO_6a1JdjBh2p6tktQ2E&callback=initMap`}
+            loadingElement={<div style={{ height: `100%` }} />}
+            containerElement={
+              <div
+                style={{
+                  height: `90vh`,
+                  margin: `auto`,
+                  border: "2px solid black",
+                }}
+              />
+            }
+            mapElement={<div style={{ height: `100%` }} />}
+          />
         </Route>
       </Layout>
     </Switch>
@@ -65,10 +90,10 @@ const Routing = () => {
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
+
   return (
     <UserContext.Provider value={{ state, dispatch }}>
       <BrowserRouter>
-        {/* <NavBar /> */}
         <Routing />
       </BrowserRouter>
     </UserContext.Provider>

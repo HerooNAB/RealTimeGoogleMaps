@@ -1,19 +1,31 @@
-import {Polyline, Marker} from "google-maps-react";
+import {
+  Marker,
+  Polyline,
+} from "react-google-maps";
+
+const optionsPolyline = {
+  strokeColor: 'blue',
+  strokeOpacity: 1,
+  strokeWeight: 8,
+  fillColor: '#085daa',
+  fillOpacity: 0.35,
+  clickable: false,
+  draggable: false,
+  editable: false,
+  visible: true,
+  radius: 30000,
+  zIndex: 1
+};
+
 export const drawPolyLine = (inputPath) => {
     return (
       <Polyline
           path={inputPath}
-          strokeColor="#0000FF"
-          strokeOpacity={1}
-          strokeWeight={10}
+          options={optionsPolyline}
         />
     );
 };
 
-
-export const DataCollection = () => {
-  
-}
 
 export const displayMarkers = (inputLocation) => {
     return inputLocation.map((location, index) => {

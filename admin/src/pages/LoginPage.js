@@ -14,6 +14,8 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import AirportShuttleIcon from "@material-ui/icons/AirportShuttle";
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
 import handleLogin from "../api/api";
 import axios from "axios";
 
@@ -37,6 +39,15 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+  },
+  appBar: {
+    borderBottom: `1px solid ${theme.palette.divider}`,
+  },
+  toolbar: {
+    flexWrap: 'wrap',
+  },
+  toolbarTitle: {
+    flexGrow: 1,
   },
 }));
 
@@ -89,7 +100,7 @@ const useStyles = makeStyles((theme) => ({
           localStorage.setItem("accessToken", response.data.token);
           localStorage.setItem("user", JSON.stringify(user));
           dispatch({ type: "USER", payload: user });
-          history.push("/admin");
+          history.push("/profile");
         } else {
           history.push("/");
           console.log("Khong phai admin");
@@ -105,7 +116,7 @@ const useStyles = makeStyles((theme) => ({
 
   return (
     <Container component="main" maxWidth="xs">
-      <CssBaseline />
+      <CssBaseline /> 
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <AirportShuttleIcon />

@@ -6,6 +6,9 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import axios from "../api/api";
+import Typography from "@material-ui/core/Typography";
+import Paper from "@material-ui/core/Paper";
 
 function createData(id, date, name, shipTo, paymentMethod, amount) {
   return { id, date, name, shipTo, paymentMethod, amount };
@@ -62,39 +65,82 @@ const useStyles = makeStyles((theme) => ({
   seeMore: {
     marginTop: theme.spacing(3),
   },
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: "center",
+    color: theme.palette.text.secondary,
+  },
 }));
 
 function Dashboard() {
   const classes = useStyles();
+  const [listData, setListData] = useState([]);
+  useEffect(async () => {
+    getUserList();
+  }, []);
+
+  const getUserList = () => {
+    axios
+      .get("http://localhost:908/user/me")
+      .then((response) => {
+        const user = response.data;
+        console.log(user);
+        const idCompany = user.company;
+        console.log(idCompany);
+        // get danh sách User Obj có chung Company
+        axios
+          .get("http://localhost:908/company/listuser/" + idCompany)
+          .then((response) => {
+            let listUser = response.data.listUser;
+            setListData(listUser);
+            console.log("nghia" + listUser);
+          })
+
+          .catch((error) => {
+            console.log(error);
+          });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   return (
-    <div>   
+    <div>
+      <Paper className={classes.paper}>
+        {" "}
+        <Typography variant="h3" gutterBottom>
+          Manager User
+        </Typography>
+      </Paper>
       <Table size="small">
         <TableHead>
           <TableRow>
-            <TableCell>Date</TableCell>
             <TableCell>Name</TableCell>
-            <TableCell>Ship To</TableCell>
-            <TableCell>Payment Method</TableCell>
-            <TableCell align="right">Sale Amount</TableCell>
+            <TableCell>Phone</TableCell>
+            <TableCell>Email</TableCell>
+            <TableCell>Kilometers</TableCell>
+            {/* <TableCell>Payment Method</TableCell>
+            <TableCell align="right">Sale Amount</TableCell> */}
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.id}>
-              <TableCell>{row.date}</TableCell>
-              <TableCell>{row.name}</TableCell>
-              <TableCell>{row.shipTo}</TableCell>
-              <TableCell>{row.paymentMethod}</TableCell>
-              <TableCell align="right">{row.amount}</TableCell>
+          {listData.map((item) => (
+            <TableRow key={item.name}>
+              <TableCell>{item.name}</TableCell>
+              <TableCell>{item.phone}</TableCell>
+              <TableCell>{item.email}</TableCell>
+              <TableCell>{item.kilometers} km</TableCell>
+              {/* <TableCell>{item.email}</TableCell>
+              <TableCell align="right">{item.name}</TableCell> */}
             </TableRow>
           ))}
         </TableBody>
       </Table>
-      <div className={classes.seeMore}>
+      {/* <div className={classes.seeMore}>
         <Link color="primary" href="#" onClick={preventDefault}>
           See more orders
         </Link>
-      </div>
+      </div> */}
     </div>
   );
 }

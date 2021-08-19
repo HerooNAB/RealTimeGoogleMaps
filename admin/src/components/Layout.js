@@ -9,6 +9,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListAltIcon from "@material-ui/icons/ListAlt";
 import MenuIcon from "@material-ui/icons/Menu";
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Divider from "@material-ui/core/Divider";
 import MapIcon from "@material-ui/icons/Map";
 import PersonIcon from "@material-ui/icons/Person";
@@ -17,8 +18,12 @@ import ExpandMore from "@material-ui/icons/ExpandMore";
 import Collapse from "@material-ui/core/Collapse";
 import { Link } from "react-router-dom";
 import DashboardIcon from "@material-ui/icons/Dashboard";
-import LocationOnSharpIcon from '@material-ui/icons/LocationOnSharp';
-import { AddCircleOutlineOutlined, NoEncryption, SubjectOutlined } from "@material-ui/icons";
+import LocationOnSharpIcon from "@material-ui/icons/LocationOnSharp";
+import {
+  AddCircleOutlineOutlined,
+  NoEncryption,
+  SubjectOutlined,
+} from "@material-ui/icons";
 import GoogleMap from "./GoogleMap";
 import axios from "../api/api";
 
@@ -42,10 +47,9 @@ const useStyles = makeStyles({
     background: "#f4f4f4",
   },
 
-  disablelink:{
+  disablelink: {
     pointerEvents: null,
-  }
-
+  },
 });
 
 function Layout({ children }) {
@@ -71,7 +75,6 @@ function Layout({ children }) {
       });
   };
 
-  const getUserWithId = (idUser) => {};
 
   const getUserList = () => {
     //sử dụng user/me để lấy id của Company
@@ -118,11 +121,6 @@ function Layout({ children }) {
       icon: <PersonIcon />,
       path: "/profile",
     },
-    {
-      text: "Tracking",
-      icon: <LocationOnSharpIcon/>,
-      path: "/admin",
-    }
   ];
 
   return (
@@ -149,7 +147,7 @@ function Layout({ children }) {
             <ListItem
               button
               key={item.text}
-              onClick={() => history.push(item.path)} 
+              onClick={() => history.push(item.path)}
               className={location.pathname == item.path ? classes.active : null}
             >
               <ListItemIcon>{item.icon}</ListItemIcon>
@@ -161,7 +159,7 @@ function Layout({ children }) {
         <List>
           <ListItem button onClick={handleClick}>
             <ListItemIcon>
-              <ListAltIcon />
+              <LocationOnSharpIcon />
             </ListItemIcon>
             <ListItemText primary="User Tracking" />
             {open ? <ExpandLess /> : <ExpandMore />}
@@ -170,22 +168,31 @@ function Layout({ children }) {
           {listData.map((item) => (
             <Collapse in={open} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
-                {/* <Link to={"/map/" + item._id }> */}
-                  <ListItem
-                    onClick={()=>history.push({pathname:'/user',state:{id: item._id}})}
-                    button
-                    className={classes.nested}
-                  >
-                    <ListItemIcon>
-                      <PersonIcon />
-                    </ListItemIcon>
-                    <ListItemText primary={item.name} />
-                  </ListItem>
-                {/* </Link> */}
+                <ListItem
+                  onClick={() =>
+                    history.push({ pathname: "/user", state: { id: item._id } })
+                  }
+                  button
+                  className={classes.nested}
+                >
+                  <ListItemIcon>
+                    <PersonIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={item.name} />
+                </ListItem>
               </List>
             </Collapse>
           ))}
         </List>
+        <ListItem button onClick={()=>{
+          localStorage.clear()
+          history.push('/');
+        }}>
+            <ListItemIcon>
+              <ExitToAppIcon/>
+            </ListItemIcon>
+            <ListItemText primary="Log Out" />
+          </ListItem>
       </Drawer>
 
       {/* main content */}
